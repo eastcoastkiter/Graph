@@ -18,6 +18,7 @@ void GraphKey::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 
     painter->setPen(QPen(Qt::black, 0));
     painter->setBrush(Qt::darkGray);
+    painter->setFont(QFont("Times", 4));
     //hline
     painter->drawLine(scene()->sceneRect().left(), 0, iRect.right(), 0);
     //vline
@@ -28,7 +29,8 @@ void GraphKey::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     for (int x=100;x<scene()->sceneRect().right();x=x+100)
     {
         painter->drawLine(x, scene()->sceneRect().bottom(), x, scene()->sceneRect().top());
-        painter->drawText(x, 10,QString::number(x/10));
+        //painter->drawText(x, 10,QString::number(x/10));
+        painter->drawText(QRectF(x, 10,20,20), Qt::AlignCenter, QString::number(x/10));
     }
 
     //vruler

@@ -4,7 +4,7 @@
 #include <QDebug>
 #include <QGLWidget>
 #include <qopengl.h>
-#include <GL/glu.h>
+
 #include <QMouseEvent>
 
 #include "math.h"

@@ -8,6 +8,7 @@
 #include <QWheelEvent>
 #include <QToolTip>
 #include <QEvent>
+#include <QTouchEvent>
 
 #include "graphKey.h"
 
@@ -22,14 +23,17 @@ public:
     ~GraphView(){}
     int yScale;
     GraphKey *gKey;
+private:
+    qreal totalScaleFactor;
 public slots:
     void autoScale();
     void autoScroll();
     void setYScale(int y){ yScale=y; }
     void createGKey();
 protected:
-    void wheelEvent(QWheelEvent*);
-    void mouseMoveEvent(QMouseEvent *);
+//    void wheelEvent(QWheelEvent*);
+//    void mouseMoveEvent(QMouseEvent *);
+    bool viewportEvent(QEvent *);
 };
 
 

@@ -11,6 +11,7 @@
 #include <QDebug>
 #include <QTreeWidgetItem>
 #include <QMouseEvent>
+#include <QFont>
 
 #include "math.h"
 

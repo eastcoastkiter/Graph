@@ -2,44 +2,34 @@
 #define READCOM_H
 
 #include <QObject>
-#include <QSerialPort>
 #include <QDebug>
 #include <QByteArray>
 #include <QRegExp>
 #include <QString>
 #include <QCoreApplication>
+#include <QTimer>
 
-#include "windows.h"
+
+#include "math.h"
 
 class ReadCom: public QObject
 {
     Q_OBJECT
 
 public:
-     ReadCom(QString portName="COM1", int baudRate=9600){ stop=false; n=portName; b=baudRate; }
+     ReadCom(QString portName="COM1", int baudRate=9600){ stop=false; n=portName; b=baudRate; i=0.0;}
      ~ReadCom(){ stop=true; } // port->close(); }
 public:
-    QSerialPort* port;
+
     bool stop;
     QString n;
     int b;
     bool isOpen;
-
+    double i;
 public slots:
     void startCom();
-    void close()
-    {
-        stop=true;
-            #ifdef Q_OS_WIN
-            Sleep(50);
-            #endif
-        if (isOpen)
-        {
-            port->clear();
-            port->close();
-        }
-        isOpen=false;
-    }
+    void close(){};
+    void emitData();
 
 signals:
     void resultReady(const QString &result);

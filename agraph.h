@@ -42,12 +42,10 @@
 #include <QTextEdit>
 #include <QMimeData>
 #include <QToolButton>
-#include <QSerialPort>
 #include <QIODevice>
 #include <QSlider>
 #include <QCheckBox>
 #include <QSpinBox>
-#include <QSerialPortInfo>
 #include <QSplitter>
 #include <QStyle>
 #include <QRectF>
@@ -58,7 +56,6 @@
 #include "graphScene.h"
 
 #include "graphValue.h"
-#include "planeItem.h"
 
 class AGraph: public QMainWindow
 {
@@ -70,14 +67,13 @@ public:
 
 private:
     QWidget* window;
-    QSerialPort* port;
     QPushButton* startButton;
     QPushButton* stopButton;
     QTextEdit* te;
     QThread workerThread;
     GraphView* gView;
     GraphScene* gScene;
-    PlaneItem* planeItem;
+
     int counter;
     QCheckBox* autoScaleCheckBox;
 

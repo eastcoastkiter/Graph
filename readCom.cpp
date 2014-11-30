@@ -3,41 +3,25 @@ using namespace std;
 
 void ReadCom::startCom()
 {
-    //qDebug() << n << b;
-    port = new QSerialPort(n);
-    //port->setPortName(n);
-    port->open(QIODevice::ReadOnly);
-        qDebug() << "open";
-        port->setBaudRate(b);
-        port->setDataBits(QSerialPort::Data8);
-        port->setParity(QSerialPort::NoParity);
-        port->setStopBits(QSerialPort::OneStop);
+    QTimer *timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(emitData()));
+    timer->start(1000);
+}
 
-        QByteArray responseData;
-        forever
-        {
-            isOpen=true;
-            if (port->waitForReadyRead(10))
-            {
-                responseData += port->readAll();
-                while (port->waitForReadyRead(0))
-                {
-                    responseData += port->readAll();
-                           }
-               // qDebug() << "responseData" << responseData.replace("|",";");
-                    if (responseData.contains("|"))
-                    {
-                        int space = responseData.lastIndexOf("|");
-                        //qDebug() << "contains" << space <<responseData.left(space);
-                        emit resultReady(responseData.left(space));
-                        responseData=responseData.right(responseData.length()-(space+1));
-                    }
-                    if (stop)
-                    {
-                        break;
-                    }
-                }
-         }
+void ReadCom::emitData()
+{
+    i=i+0.3141;
+    if (i>= (2*3.141))
+    {
+        i=0.0;
+    }
+    double x=sin(i);
+    double y=cos(i);
 
-
+    QString res="x:";
+            res+=QString::number(x);
+            res+="\ny:";
+            res+=QString::number(y);
+            res+="\nz:2";
+    emit resultReady(res);
 }

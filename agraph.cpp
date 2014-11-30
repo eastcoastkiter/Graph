@@ -25,29 +25,6 @@ window = new QWidget(this);
             fileMenu->addAction(exitAction);
 
 
-/*
-       QMenu* editMenu = menuBar()->addMenu(tr("&Edit"));
-
-       QAction* pasteAction   = new QAction(tr("&Paste from Clipboard"), window);
-           pasteAction->setShortcut(Qt::CTRL + Qt::Key_V);
-           connect(pasteAction, SIGNAL(triggered()), this, SLOT(paste()));
-           editMenu->addAction(pasteAction);
-
-       QAction* clipAction   = new QAction(tr("&Copy to Clipboard"), window);
-           clipAction->setShortcut(Qt::CTRL + Qt::Key_C);
-           connect(clipAction, SIGNAL(triggered()), this, SLOT(copyToClipboard()));
-           editMenu->addAction(clipAction);
-
-       QAction* clearAction   = new QAction(tr("Clear &Tree"), window);
-           clearAction->setShortcut(Qt::CTRL + Qt::Key_T);
-           editMenu->addAction(clearAction);
-
-       QMenu* helpMenu = menuBar()->addMenu(tr("&?"));
-
-       QAction* aboutAction   = new QAction(tr("&about"), window);
-           connect(aboutAction, SIGNAL(triggered()), this, SLOT(about()));
-           helpMenu->addAction(aboutAction);
-*/
 
             //setContentsMargins(0,0,0,0);
             //layout()->setContentsMargins(0,0,0,0);
@@ -85,21 +62,21 @@ window = new QWidget(this);
 
         mainGrid->addLayout(buttonBox,0,0);
 
-        planeItem = new PlaneItem(this);
-        mainGrid->addWidget(planeItem,1,0);
+      //  planeItem = new PlaneItem(this);
+    //    mainGrid->addWidget(planeItem,1,0);
 
         gScene = new GraphScene(this);
         connect(gScene, SIGNAL(sceneRectChanged(const QRectF &)),this, SLOT(gSceneRectChanged(const QRectF &)));
 
         gView = new GraphView(gScene);
         gView->setScene(gScene);
-        mainGrid->addWidget(gView,1,1);
+        mainGrid->addWidget(gView,1,0);
 
 
         QGridLayout *optionsGrid = new QGridLayout (0);
             mainGrid->addLayout(optionsGrid,2,0);
 
-        optionsGrid->addWidget(new QLabel("Port:"),0,0);
+/*        optionsGrid->addWidget(new QLabel("Port:"),0,0);
         portComboBox = new QComboBox(this);
             QList<QSerialPortInfo> portList=QSerialPortInfo::availablePorts();
             QStringList portListNames;
@@ -122,7 +99,7 @@ window = new QWidget(this);
         baudRateComboBox->insertItems(0,baudRateListNames);
         optionsGrid->addWidget(baudRateComboBox,0,2);
         baudRateComboBox->setCurrentText("9600");
-
+*/
         optionsGrid->addWidget(new QLabel("Autoscale:"),1,0);
 
         autoScaleCheckBox = new QCheckBox(this);
@@ -239,7 +216,7 @@ void AGraph::handleComs(const QString &text)
                 GraphValue *gValue = new GraphValue(c,0);
                      gScene->addItem(gValue);
                      gValue->setScale(dotSizeSpinBox->value());
-                     gValue->moveBy(counter*xTranslateSpinBox->value(),x*10);
+                     gValue->moveBy(counter*xTranslateSpinBox->value(),x*-10);
             }
             foundVal=0;
             gView->update();
@@ -274,7 +251,7 @@ void AGraph::startThread()
     }
 
 
-    rc = new ReadCom(portComboBox->currentText(),baudRateComboBox->currentText().toInt());
+    rc = new ReadCom("portComboBox->currentText()",9600);
     rc->moveToThread(&workerThread);
     connect(this, SIGNAL(operate()), rc, SLOT(startCom()));
     connect(rc, SIGNAL(resultReady(const QString &)), this, SLOT(handleComs(const QString &)));
